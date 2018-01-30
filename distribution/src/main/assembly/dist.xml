@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+ ~ Hibernate OGM, Domain model persistence for NoSQL datastores
+ ~
+ ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later
+ ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+
+<!--
+  When updating this file, make sure we don't include duplicate jars in different subdirectories.
+  Generate the distribution preview to see how it looks like:
+   mvn clean package -DskipDistro=false -DskipTests=true -DskipITs=true
+
+  To inspect which jars are being distributed and look for duplicates this might be handy:
+  tar -ztvf target/*-dist.tar.gz | grep .jar| sed -e "s/.*\/dist//" -e "s/\(\/lib\/[^\/]*\)\/\(.*\)/\2 \t\t\t\1/" | sort
+ -->
+<assembly>
+    <id>dist</id>
+    <formats>
+        <format>tar.gz</format>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>true</includeBaseDirectory>
+
+    <!-- Configure the module artifacts which make it into the distribution bundle -->
+    <dependencySets>
+<!--
+        #######################################################################
+        #  hibernate-ogm-orientdb
+        #######################################################################
+-->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>dist/lib/orientdb</outputDirectory>
+            <useTransitiveFiltering>true</useTransitiveFiltering>
+            <unpack>false</unpack>
+            <includes>
+                <include>org.hibernate.ogm:hibernate-ogm-orientdb</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+
+    <files>
+        <file>
+            <source>../README.md</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>../license.txt</source>
+            <outputDirectory>/</outputDirectory>
+        </file>
+    </files>
+
+    <fileSets>
+        <!-- Include all sources -->
+        <fileSet>
+            <directory>../.</directory>
+            <outputDirectory>sources</outputDirectory>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <excludes>
+                <exclude>../README.md</exclude>
+                <exclude>../how-to-release.md</exclude>
+                <exclude>../license.txt</exclude>
+                <exclude>../changelog.txt</exclude>
+                <exclude>../.travis.yml</exclude>
+                <exclude>../travis/**</exclude>
+                <exclude>../hibernate-noorm-release-scripts/**</exclude>
+                <exclude>../*.sh</exclude>
+                <exclude>**/.git/**</exclude>
+                <exclude>**/.gitignore</exclude>
+                <exclude>**/.gitattributes</exclude>
+                <exclude>**/.bin/**</exclude>
+                <exclude>**/.settings/**</exclude>
+                <exclude>**/.project</exclude>
+                <exclude>**/.classpath</exclude>
+                <exclude>**/.factorypath</exclude>
+                <exclude>**/bin/**</exclude>
+                <exclude>**/.externalToolBuilders/**</exclude>
+                <exclude>**/target/**</exclude>
+                <exclude>**/.idea/**</exclude>
+                <exclude>**/*.iml</exclude>
+                <exclude>**/*.log</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>../documentation/manual/target/asciidoctor</directory>
+            <outputDirectory>docs/reference</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>../documentation/javadoc/target/apidocs</directory>
+            <outputDirectory>docs/api</outputDirectory>
+        </fileSet>
+     </fileSets>
+</assembly>

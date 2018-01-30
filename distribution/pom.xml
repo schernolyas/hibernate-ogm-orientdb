@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~ Hibernate OGM, Domain model persistence for NoSQL datastores
+ ~
+ ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later
+ ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.hibernate.ogm</groupId>
+        <artifactId>hibernate-ogm-orientdb-parent</artifactId>
+        <version>5.2.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>hibernate-ogm-orientdb-distribution</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Hibernate OGM OrientDB Distribution</name>
+    <description>Creates the distribution package for Hibernate OGM OrientDB</description>
+
+    <properties>
+        <assembly.name>hibernate-ogm-orientdb-${project.version}</assembly.name>
+        <maven.deploy.skip>true</maven.deploy.skip>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>hibernate-ogm-orientdb</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>doc</id>
+            <activation>
+                <!-- Needs to match activation of "doc" profile in parent pom!  -->
+                <jdk>[1.7, 1.9)</jdk>
+                <property>
+                    <name>skipDocs</name>
+                    <value>!true</value>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>hibernate-ogm-orientdb-javadoc</artifactId>
+                    <version>${project.version}</version>
+                    <classifier>javadoc</classifier>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>
