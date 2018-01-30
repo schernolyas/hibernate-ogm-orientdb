@@ -94,7 +94,6 @@ public class UpdateQueryGenerator {
 	 * @param className name of OrientDB class
 	 * @param valuesMap map with column names and their values
 	 * @param primaryKey primary key
-	 * @param currentVersion version for update
 	 * @return result
 	 * @see GenerationResult
 	 */

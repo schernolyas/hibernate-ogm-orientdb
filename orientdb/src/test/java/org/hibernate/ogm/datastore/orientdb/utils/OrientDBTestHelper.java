@@ -164,7 +164,7 @@ public class OrientDBTestHelper implements GridDialectTestHelper {
 	}
 
 	@Override
-	public Map<String, String> getEnvironmentProperties() {
+	public Map<String, String> getAdditionalConfigurationProperties() {
 		return readProperties();
 	}
 
