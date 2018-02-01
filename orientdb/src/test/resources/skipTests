@@ -1,4 +1,6 @@
-#org.hibernate.ogm.backendtck.associations.collection.types.MapContentsStoredInSeparateDocumentTest
+org.hibernate.ogm.backendtck.batchfetching.MultiGetSingleColumnIdTest
+org.hibernate.ogm.backendtck.batchfetching.MultiGetEmbeddedIdTest
+org.hibernate.ogm.backendtck.batchfetching.MultiGetMultiColumnsIdTest
 
 
 
