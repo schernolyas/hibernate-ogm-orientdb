@@ -25,7 +25,7 @@ import com.orientechnologies.orient.core.sql.executor.OResultSet;
  *
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
  * @see <a href="http://orientdb.com/docs/master/Java-Query-API.html">Java-Query-API</a>
- * @since 1.8
+ * @since 3.0
  */
 public class NativeQueryUtil {
 

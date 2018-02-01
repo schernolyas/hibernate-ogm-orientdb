@@ -45,8 +45,9 @@
         <hibernate-search.module.slot>${hibernateSearchVersion}-orm51</hibernate-search.module.slot>
 
         <!-- Target version of WildFly (for testing and JipiJapa integration) -->
-        <version.wildfly>10.1.0.Final</version.wildfly>
-        <hibernateWildflyClassifier>wildfly-10-dist</hibernateWildflyClassifier>
+        <version.wildfly>11.0.0.Final</version.wildfly>
+        <hibernateWildflyClassifier>wildfly-11-dist</hibernateWildflyClassifier>
+        <hibernate-orm.module.slot>main</hibernate-orm.module.slot>
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.1.Final</hibernate-asciidoctor-theme.version>
@@ -180,7 +181,7 @@
             <dependency>
                 <groupId>org.jboss</groupId>
                 <artifactId>jboss-transaction-spi</artifactId>
-                <version>7.3.0.Final</version>
+                <version>${jbossTransactionSPIVersion}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.jboss.logging</groupId>

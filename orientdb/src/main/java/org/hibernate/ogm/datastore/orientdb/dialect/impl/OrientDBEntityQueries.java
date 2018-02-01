@@ -87,6 +87,9 @@ public class OrientDBEntityQueries extends QueriesBase {
 			Object value = associationKey.getColumnValues()[i];
 			query.append( name ).append( "=" );
 			EntityKeyUtil.setFieldValue( query, value );
+			if ( associationKey.getColumnNames().length - i > 1 ) {
+				query.append( " and " );
+			}
 		}
 
 		String[] indexColumns = associationKey.getMetadata().getRowKeyIndexColumnNames();

@@ -19,6 +19,7 @@ import org.hibernate.ogm.dialect.spi.AssociationContext;
 import org.hibernate.ogm.model.key.spi.AssociationKey;
 import org.hibernate.ogm.model.spi.TupleSnapshot;
 
+import com.orientechnologies.orient.core.db.record.OTrackedMap;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
 /**
@@ -71,8 +72,16 @@ public class OrientDBTupleAssociationSnapshot implements TupleSnapshot {
 		Object value = properties.get( columnName );
 		if ( value == null && EntityKeyUtil.isEmbeddedColumn( columnName ) ) {
 			EmbeddedColumnInfo ec = new EmbeddedColumnInfo( columnName );
-			ODocument embeddedContainer = (ODocument) properties.get( ec.getClassNames().get( 0 ) );
-			value = embeddedContainer.field( ec.getPropertyName() );
+			Object embeddedContainer = properties.get( ec.getClassNames().get( 0 ) );
+			if ( embeddedContainer instanceof ODocument ) {
+				ODocument embeddedContainerDoc = (ODocument) embeddedContainer;
+				value = embeddedContainerDoc.field( ec.getPropertyName() );
+			}
+			else if ( embeddedContainer instanceof Map ) {
+				Map embeddedContainerMap = (Map) embeddedContainer;
+				value = embeddedContainerMap.get( ec.getPropertyName() );
+
+			}
 		}
 		return value;
 	}
