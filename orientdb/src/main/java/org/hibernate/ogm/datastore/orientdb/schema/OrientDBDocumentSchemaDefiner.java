@@ -76,7 +76,7 @@ import org.hibernate.type.descriptor.converter.AttributeConverterTypeAdapter;
  * <li>Primary key created as unique index</li>
  * <li>Associations between entities is like relational DBMS (by link owner field)</li>
  * </ol>
- *
+ * @see <a href="http://orientdb.com/docs/3.0.x/java/Java-Schema-Api.html">Schema API</a>
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
  */
 public class OrientDBDocumentSchemaDefiner extends BaseSchemaDefiner {

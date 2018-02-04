@@ -4,4 +4,4 @@
 *.iml
 
 #maven
-/*/target
+**/target/**
