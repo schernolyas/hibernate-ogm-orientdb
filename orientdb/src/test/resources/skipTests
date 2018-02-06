@@ -7,34 +7,34 @@ org.hibernate.ogm.backendtck.associations.storageconfiguration.AssociationStorag
 org.hibernate.ogm.backendtck.associations.storageconfiguration.AssociationStorageConfiguredViaPropertyTest
 
 
-
 #tests for investigation
 org.hibernate.ogm.backendtck.type.BuiltInTypeTest
 org.hibernate.ogm.backendtck.queries.QueriesWithAssociationsTest
-org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyTest
 org.hibernate.ogm.backendtck.associations.collection.unidirectional.CollectionUnidirectionalTest
 org.hibernate.ogm.backendtck.optimisticlocking.OptimisticLockingTest
 org.hibernate.ogm.backendtck.id.SequenceNextValueGenerationTest
 org.hibernate.ogm.backendtck.id.embeddable.EmbeddableIdTest
 org.hibernate.ogm.backendtck.embeddable.EmbeddableTest
-org.hibernate.ogm.backendtck.massindex.AssociationMassIndexerTest
+
 org.hibernate.ogm.backendtck.queries.QueriesWithEmbeddedTest
 org.hibernate.ogm.backendtck.dialectinvocations.GridDialectOperationInvocationsForElementCollectionTest
 org.hibernate.ogm.backendtck.associations.compositeid.ReferencedCompositeIdTest
-org.hibernate.ogm.backendtck.associations.manytoone.ManyToOneTest
-org.hibernate.ogm.backendtck.massindex.SimpleEntityMassIndexingTest
+
 org.hibernate.ogm.backendtck.dialectinvocations.GridDialectOperationInvocationsForOneToOneTest
 org.hibernate.ogm.backendtck.compensation.CompensationSpiTest
 org.hibernate.ogm.backendtck.inheritance.tableperclass.depositor.PolymorphicAssociationTest
 org.hibernate.ogm.backendtck.embeddable.EmbeddableExtraTest
-org.hibernate.ogm.backendtck.id.IdentityIdGeneratorTest
 org.hibernate.ogm.backendtck.associations.collection.types.MapContentsStoredInSeparateDocumentTest
-org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyExtraTest
 org.hibernate.ogm.backendtck.queries.QueriesWithEmbeddedCollectionTest
 org.hibernate.ogm.backendtck.queries.CompositeIdQueriesTest
 org.hibernate.ogm.backendtck.embeddable.ElementCollectionWithMapAndEmbeddedTest
 org.hibernate.ogm.backendtck.queries.SimpleQueriesWithTablePerClassNotSupportedTest
 
-#need redevelop to local version
-#EmbeddedId is not supported
-org.hibernate.ogm.backendtck.associations.onetoone.OneToOneTest
+#not supported features
+org.hibernate.ogm.backendtck.associations.onetoone.OneToOneTest#testBidirectionalOneToOneCompositeId
+org.hibernate.ogm.backendtck.associations.manytoone.ManyToOneTest#testDefaultBiDirManyToOneCompositeKeyTest
+org.hibernate.ogm.backendtck.id.IdentityIdGeneratorTest
+org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyExtraTest
+org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyTest#testManyToManyCompositeId
+org.hibernate.ogm.backendtck.massindex.SimpleEntityMassIndexingTest
+org.hibernate.ogm.backendtck.massindex.AssociationMassIndexerTest
