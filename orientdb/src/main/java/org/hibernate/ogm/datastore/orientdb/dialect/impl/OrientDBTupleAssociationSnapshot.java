@@ -19,7 +19,6 @@ import org.hibernate.ogm.dialect.spi.AssociationContext;
 import org.hibernate.ogm.model.key.spi.AssociationKey;
 import org.hibernate.ogm.model.spi.TupleSnapshot;
 
-import com.orientechnologies.orient.core.db.record.OTrackedMap;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
 /**
