@@ -38,3 +38,7 @@ org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyExtraT
 org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyTest#testManyToManyCompositeId
 org.hibernate.ogm.backendtck.massindex.SimpleEntityMassIndexingTest
 org.hibernate.ogm.backendtck.massindex.AssociationMassIndexerTest
+
+
+#tests that replaced by local copy
+org.hibernate.ogm.backendtck.associations.collection.manytomany.ManyToManyTest
