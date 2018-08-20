@@ -71,6 +71,7 @@ public class OrientDBConstant {
 	public static final String GET_TABLE_SEQ_VALUE_FUNC = "getTableSeqValue".toUpperCase();
 	@Deprecated
 	public static final String EXECUTE_QUERY_FUNC = "executeQuery".toUpperCase();
+	@Deprecated
 	public static final String GET_NEXT_SEQ_VALUE_FUNC = "getNextSeqValue".toUpperCase();
 
 	static {

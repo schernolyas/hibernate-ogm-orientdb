@@ -6,9 +6,12 @@
  */
 package org.hibernate.ogm.datastore.orientdb.logging.impl;
 
+import static org.jboss.logging.Logger.Level.WARN;
+
 import org.hibernate.HibernateException;
 import org.hibernate.ogm.datastore.orientdb.OrientDBProperties.StorageModeEnum;
 import org.jboss.logging.annotations.Cause;
+import org.jboss.logging.annotations.LogMessage;
 import org.jboss.logging.annotations.Message;
 import org.jboss.logging.annotations.MessageLogger;
 
@@ -43,4 +46,18 @@ public interface Log extends org.hibernate.ogm.util.impl.Log {
 
 	@Message(id = 1707, value = "Cannot parse query %s!")
 	HibernateException cannotParseQuery(String propertyQuery, @Cause Exception cause);
+
+	@LogMessage(level = WARN)
+	@Message(id = 1708, value = "Cannot join transaction using a non-JTA entity manager.")
+	void callingJoinTransactionOnNonJtaEntityManager();
+
+	@Message(id = 1709, value = "OrientDB cannot execute work outside an isolated transaction.")
+	HibernateException cannotExecuteWorkOutsideIsolatedTransaction();
+
+	@LogMessage(level = WARN)
+	@Message(id = 1710, value = "Unable to rollback transaction")
+	void unableToRollbackTransaction(@Cause Exception re);
+
+	@Message(id = 1410, value = "Error performing isolated work")
+	HibernateException unableToPerformIsolatedWork(@Cause Exception e);
 }

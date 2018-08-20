@@ -160,6 +160,7 @@ public class OrientDBTestHelper implements GridDialectTestHelper {
 		OrientDBDatastoreProvider provider = getProvider( sessionFactory );
 		ODatabaseDocument db = provider.getCurrentDatabase();
 
+
 		db.close();
 	}
 

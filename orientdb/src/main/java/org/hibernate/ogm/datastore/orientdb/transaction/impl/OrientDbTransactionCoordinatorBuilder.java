@@ -6,11 +6,10 @@
  */
 package org.hibernate.ogm.datastore.orientdb.transaction.impl;
 
-import org.hibernate.ConnectionAcquisitionMode;
-import org.hibernate.ConnectionReleaseMode;
 import org.hibernate.ogm.datastore.orientdb.impl.OrientDBDatastoreProvider;
-import org.hibernate.resource.transaction.TransactionCoordinator;
-import org.hibernate.resource.transaction.TransactionCoordinatorBuilder;
+import org.hibernate.resource.jdbc.spi.PhysicalConnectionHandlingMode;
+import org.hibernate.resource.transaction.spi.TransactionCoordinator;
+import org.hibernate.resource.transaction.spi.TransactionCoordinatorBuilder;
 import org.hibernate.resource.transaction.spi.TransactionCoordinatorOwner;
 
 /**
@@ -35,13 +34,14 @@ public class OrientDbTransactionCoordinatorBuilder implements TransactionCoordin
 	}
 
 	@Override
-	public TransactionCoordinator buildTransactionCoordinator(TransactionCoordinatorOwner owner, TransactionCoordinatorOptions options) {
-		TransactionCoordinator coordinator = delegate.buildTransactionCoordinator( owner, options );
+	public TransactionCoordinator buildTransactionCoordinator(TransactionCoordinatorOwner owner, Options options) {
+
 		if ( delegate.isJta() ) {
+			TransactionCoordinator coordinator = delegate.buildTransactionCoordinator( owner, options );
 			return new OrientDBJtaTransactionCoordinator( coordinator, datastoreProvider );
 		}
 		else {
-			return new OrientDBLocalTransactionCoordinator( coordinator, datastoreProvider );
+			return new OrientDBLocalTransactionCoordinator( this, owner, datastoreProvider );
 		}
 	}
 
@@ -51,13 +51,7 @@ public class OrientDbTransactionCoordinatorBuilder implements TransactionCoordin
 	}
 
 	@Override
-	public ConnectionReleaseMode getDefaultConnectionReleaseMode() {
-		return delegate.getDefaultConnectionReleaseMode();
+	public PhysicalConnectionHandlingMode getDefaultConnectionHandlingMode() {
+		return delegate.getDefaultConnectionHandlingMode();
 	}
-
-	@Override
-	public ConnectionAcquisitionMode getDefaultConnectionAcquisitionMode() {
-		return delegate.getDefaultConnectionAcquisitionMode();
-	}
-
 }

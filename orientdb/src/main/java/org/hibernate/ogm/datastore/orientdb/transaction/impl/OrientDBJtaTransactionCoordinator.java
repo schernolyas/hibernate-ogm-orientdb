@@ -13,7 +13,7 @@ import org.hibernate.ogm.datastore.orientdb.impl.OrientDBDatastoreProvider;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
 import org.hibernate.ogm.transaction.impl.ForwardingTransactionCoordinator;
-import org.hibernate.resource.transaction.TransactionCoordinator;
+import org.hibernate.resource.transaction.spi.TransactionCoordinator;
 import org.hibernate.resource.transaction.spi.TransactionStatus;
 
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
@@ -33,11 +33,11 @@ public class OrientDBJtaTransactionCoordinator extends ForwardingTransactionCoor
 	/**
 	 * Constructor
 	 *
-	 * @param coordinator transaction coordinator
+	 * @param jtaDelegate transaction coordinator
 	 * @param datastoreProvider provider of OrientDB datastore
 	 */
-	public OrientDBJtaTransactionCoordinator(TransactionCoordinator coordinator, OrientDBDatastoreProvider datastoreProvider) {
-		super( coordinator );
+	public OrientDBJtaTransactionCoordinator(TransactionCoordinator jtaDelegate, OrientDBDatastoreProvider datastoreProvider) {
+		super( jtaDelegate );
 		this.datastoreProvider = datastoreProvider;
 	}
 

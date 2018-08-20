@@ -9,6 +9,7 @@ package org.hibernate.ogm.datastore.orientdb.utils;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 import com.orientechnologies.orient.core.metadata.OMetadata;
 import com.orientechnologies.orient.core.metadata.function.OFunction;
+import com.orientechnologies.orient.core.metadata.sequence.OSequence;
 
 import org.hibernate.ogm.datastore.orientdb.constant.OrientDBConstant;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
@@ -30,15 +31,25 @@ public class SequenceUtil {
 	 * @param seqName name of sequence
 	 * @return next value of the sequence
 	 */
-	public static synchronized long getNextSequenceValue(ODatabaseDocument db, String seqName) {
+	public static synchronized long ____getNextSequenceValue(ODatabaseDocument db, String seqName) {
 		OMetadata metadata = db.getMetadata();
 		OFunction getNextSeqValue = metadata.getFunctionLibrary().getFunction( OrientDBConstant.GET_NEXT_SEQ_VALUE_FUNC );
 		if ( getNextSeqValue == null ) {
 			metadata.reload();
 			getNextSeqValue = metadata.getFunctionLibrary().getFunction( OrientDBConstant.GET_NEXT_SEQ_VALUE_FUNC );
 		}
-		Number value = (Number) getNextSeqValue.execute( seqName );
+		Number value = (Number) getNextSeqValue.execute( seqName.toUpperCase() );
 		return value.longValue();
+	}
+
+	public static synchronized long getNextSequenceValue(ODatabaseDocument db, String seqName) {
+		OMetadata metadata = db.getMetadata();
+		OSequence getNextSeqValue = metadata.getSequenceLibrary().getSequence( seqName.toUpperCase() );
+		if ( getNextSeqValue == null ) {
+			metadata.reload();
+			getNextSeqValue = metadata.getSequenceLibrary().getSequence( seqName.toUpperCase() );
+		}
+		return getNextSeqValue.next();
 	}
 
 	/**
