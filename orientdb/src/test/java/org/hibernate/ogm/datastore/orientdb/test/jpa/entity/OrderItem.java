@@ -19,7 +19,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 
-import org.hibernate.search.annotations.Indexed;
 
 import com.orientechnologies.orient.core.id.ORecordId;
 
@@ -28,7 +27,6 @@ import com.orientechnologies.orient.core.id.ORecordId;
  */
 
 @Entity
-@Indexed(index = "OrderItem")
 public class OrderItem implements Serializable {
 
 	@Id

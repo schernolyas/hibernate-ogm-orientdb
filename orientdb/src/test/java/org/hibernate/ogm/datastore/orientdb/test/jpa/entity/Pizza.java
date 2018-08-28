@@ -19,15 +19,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Version;
 
-import org.hibernate.search.annotations.Indexed;
-
 import com.orientechnologies.orient.core.id.ORecordId;
 
 /**
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
  */
 @Entity
-@Indexed(index = "Pizza")
 public class Pizza implements Serializable {
 
 	@Id

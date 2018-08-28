@@ -18,7 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.search.annotations.Indexed;
 
 import com.orientechnologies.orient.core.id.ORecordId;
 
@@ -26,7 +25,6 @@ import com.orientechnologies.orient.core.id.ORecordId;
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
  */
 @Entity
-@Indexed(index = "Product")
 public class Product implements Serializable {
 
 	@Id
