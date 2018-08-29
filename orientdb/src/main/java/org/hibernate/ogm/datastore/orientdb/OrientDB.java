@@ -24,7 +24,7 @@ public class OrientDB implements DatastoreConfiguration<GlobalContext<?, ?>> {
 	 *
 	 * @see OgmProperties#DATASTORE_PROVIDER
 	 */
-	public static final String DATASTORE_PROVIDER_NAME = "ORIENTDB";
+	public static final String DATASTORE_PROVIDER_NAME = "org.hibernate.ogm.datastore.orientdb.impl.OrientDBDatastoreProvider";
 
 	@Override
 	public GlobalContext<?, ?> getConfigurationBuilder(ConfigurationContext context) {

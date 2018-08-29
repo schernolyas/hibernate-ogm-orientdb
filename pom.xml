@@ -28,10 +28,10 @@
         <!-- test / build-only dependency versions, managed below -->
         <jbossNamingVersion>7.1.0.Final</jbossNamingVersion>
         <shrinkwrapVersion>1.2.2</shrinkwrapVersion>
-        <arquillianVersion>1.1.5.Final</arquillianVersion>
+        <arquillianVersion>1.2.0.Final</arquillianVersion>
+        <wildflyArquillianVersion>2.1.0.Final</wildflyArquillianVersion>
         <jmhVersion>1.0</jmhVersion>
-        <jbossLoggingProcessorVersion>1.2.0.Final</jbossLoggingProcessorVersion>
-        <bytemanVersion>3.0.6</bytemanVersion>
+        <bytemanVersion>4.0.0-BETA5</bytemanVersion>
 
         <!--
              Following is the default jgroups mcast address.  If you find the testsuite runs very slowly, there
@@ -42,12 +42,14 @@
         <jgroups.bind_addr>127.0.0.1</jgroups.bind_addr>
         <skipUnitTests>false</skipUnitTests>
 
-        <hibernate-search.module.slot>${hibernateSearchVersion}-orm51</hibernate-search.module.slot>
+        <!--<hibernate-search.module.slot>${hibernateSearchVersion}</hibernate-search.module.slot>-->
 
         <!-- Target version of WildFly (for testing and JipiJapa integration) -->
         <version.wildfly>11.0.0.Final</version.wildfly>
         <hibernateWildflyClassifier>wildfly-11-dist</hibernateWildflyClassifier>
-        <hibernate-orm.module.slot>main</hibernate-orm.module.slot>
+
+        <!-- This slot property is used by the modules project and the integration tests -->
+        <hibernate-search.module.slot>${hibernateSearchFamilyVersion}</hibernate-search.module.slot>
 
         <!-- Asciidoctor -->
         <hibernate-asciidoctor-theme.version>1.0.1.Final</hibernate-asciidoctor-theme.version>
@@ -58,6 +60,7 @@
 
         <!-- OrientDB -->
         <orientdbVersion>3.0.5</orientdbVersion>
+        <groovyVersion>2.4.10</groovyVersion>
     </properties>
 
     <modules>
@@ -72,6 +75,11 @@
                 <groupId>${project.groupId}</groupId>
                 <artifactId>hibernate-ogm-orientdb</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy-all</artifactId>
+                <version>${groovyVersion}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -777,7 +785,7 @@
                 <additionalRuntimeArgLine>--add-modules java.xml.bind</additionalRuntimeArgLine>
             </properties>
         </profile>
-<!--		
+
         <profile>
             <id>integrationtest</id>
             <activation>
@@ -785,16 +793,13 @@
                     <name>skipITs</name>
                     <value>!true</value>
                 </property>
--->
                 <!-- Skip on Java 9, both because of some NoSQL stores aren't ready and because of WildFly -->
-<!--
                 <jdk>1.8</jdk>
             </activation>
             <modules>
                 <module>integrationtest</module>
             </modules>
         </profile>
--->
         <profile>
             <id>doc</id>
             <activation>

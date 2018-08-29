@@ -23,26 +23,32 @@
         <module.xml.basedir>${basedir}/src/main/modules</module.xml.basedir>
         <module.xml.aliases.basedir>${basedir}/src/main/aliases</module.xml.aliases.basedir>
 		<hibernate.ogm.module.slot>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}</hibernate.ogm.module.slot>
-        <hibernate.ogm.ehcache.module.slot>${hibernate.ogm.module.slot}</hibernate.ogm.ehcache.module.slot>
-        <hibernate.ogm.cassandra.module.slot>${hibernate.ogm.module.slot}</hibernate.ogm.cassandra.module.slot>
-        <hibernate.ogm.couchdb.module.slot>${hibernate.ogm.module.slot}</hibernate.ogm.couchdb.module.slot>
-        <hibernate.ogm.redis.module.slot>${hibernate.ogm.module.slot}</hibernate.ogm.redis.module.slot>
+        <hibernate.ogm.orientdb.module.slot>${hibernate.ogm.module.slot}</hibernate.ogm.orientdb.module.slot>
         <hibernate.hql.module.slot>${hibernateHqlParserVersion}</hibernate.hql.module.slot>
+        <com.orientechnologies.module.slot>${orientdbVersion}</com.orientechnologies.module.slot>
+
+        <groovyVersion>2.4.10</groovyVersion>
+        <org.codehaus.groovy.groovy-all.module.slot>${groovyVersion}</org.codehaus.groovy.groovy-all.module.slot>
+
+        <orientdb.jna.version>4.5.0</orientdb.jna.version>
+        <orientdb.concurrentlinkedhashmap.version>1.4.2</orientdb.concurrentlinkedhashmap.version>
+        <orientdb.json.version>1.1</orientdb.json.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <!-- Overriding the version used for tests in OGM (managed in the parent) with the one used by the C* driver -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <optional>true</optional>
-                <version>${cassandraGuavaVersion}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
+        <dependency>
+            <groupId>org.hibernate.ogm</groupId>
+            <artifactId>hibernate-ogm-orientdb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.orientechnologies</groupId>
+            <artifactId>orientdb-client</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

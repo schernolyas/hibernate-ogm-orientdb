@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ ~ Hibernate OGM, Domain model persistence for NoSQL datastores
+ ~
+ ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later
+ ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<module xmlns="urn:jboss:module:1.1" name="com.orientechnologies.orientdb" slot="${com.orientechnologies.module.slot}">
+    <resources>
+        <resource-root path="orientdb-core-${com.orientechnologies.module.slot}.jar" />
+        <resource-root path="orientdb-client-${com.orientechnologies.module.slot}.jar" />
+        <resource-root path="groovy-all-${groovyVersion}.jar" />
+        <resource-root path="jna-${orientdb.jna.version}.jar" />
+        <resource-root path="jna-platform-${orientdb.jna.version}.jar" />
+        <resource-root path="concurrentlinkedhashmap-lru-${orientdb.concurrentlinkedhashmap.version}.jar" />
+        <resource-root path="json-simple-${orientdb.json.version}.jar"/>
+    </resources>
+    <dependencies>
+
+        <module name="javax.api" />
+        <module name="org.jboss.logging" />
+        <!-- It requires sun.misc.Unsafe -->
+        <module name="sun.jdk" />
+    </dependencies>
+</module>

@@ -5,7 +5,7 @@
  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
   -->
 <assembly>
-    <id>wildfly-10-dist</id>
+    <id>${hibernateWildflyClassifier}</id>
     <formats>
         <format>zip</format>
     </formats>
@@ -13,119 +13,57 @@
     <baseDirectory>/</baseDirectory>
 
     <files>
-        <!-- OGM -->
+        <!-- dialect for OrientDB -->
         <file>
-             <source>${module.xml.basedir}/ogm/ehcache/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/ehcache/${hibernate.ogm.ehcache.module.slot}</outputDirectory>
-             <filtered>true</filtered>
+            <source>${module.xml.basedir}/ogm/orientdb/module.xml</source>
+            <outputDirectory>/org/hibernate/ogm/orientdb/${hibernate.ogm.orientdb.module.slot}</outputDirectory>
+            <filtered>true</filtered>
         </file>
         <file>
-             <source>${module.xml.aliases.basedir}/ogm/ehcache/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/ehcache/main</outputDirectory>
-             <filtered>true</filtered>
+            <source>${module.xml.aliases.basedir}/ogm/orientdb/module.xml</source>
+            <outputDirectory>/org/hibernate/ogm/orientdb/main</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <!-- OrientDB -->
+        <file>
+            <source>${module.xml.basedir}/orientdb/module.xml</source>
+            <outputDirectory>/com/orientechnologies/orientdb/${com.orientechnologies.module.slot}</outputDirectory>
+            <filtered>true</filtered>
         </file>
         <file>
-             <source>${module.xml.basedir}/ogm/couchdb/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/couchdb/${hibernate.ogm.couchdb.module.slot}</outputDirectory>
-             <filtered>true</filtered>
+            <source>${module.xml.aliases.basedir}/orientdb/module.xml</source>
+            <outputDirectory>/com/orientechnologies/orientdb/main</outputDirectory>
+            <filtered>true</filtered>
         </file>
-        <file>
-             <source>${module.xml.aliases.basedir}/ogm/couchdb/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/couchdb/main</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.basedir}/ogm/cassandra/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/cassandra/${hibernate.ogm.cassandra.module.slot}</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.aliases.basedir}/ogm/cassandra/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/cassandra/main</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.basedir}/ogm/cassandra-driver/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/cassandra/driver/${hibernate.ogm.cassandra.module.slot}</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.basedir}/ogm/redis/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/redis/${hibernate.ogm.redis.module.slot}</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.aliases.basedir}/ogm/redis/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/redis/main</outputDirectory>
-             <filtered>true</filtered>
-        </file>
-        <file>
-             <source>${module.xml.basedir}/ogm/redis-driver/module.xml</source>
-             <outputDirectory>/org/hibernate/ogm/redis/driver/${hibernate.ogm.redis.module.slot}</outputDirectory>
-             <filtered>true</filtered>
-        </file>
+
     </files>
 
     <dependencySets>
-        <!-- OGM -->
-        <dependencySet>
+        <!-- dialect for OrientDB -->
+       <dependencySet>
              <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/ehcache/${hibernate.ogm.ehcache.module.slot}</outputDirectory>
+             <outputDirectory>org/hibernate/ogm/orientdb/${hibernate.ogm.orientdb.module.slot}</outputDirectory>
              <useTransitiveFiltering>false</useTransitiveFiltering>
              <unpack>false</unpack>
              <includes>
-                 <include>org.hibernate.ogm:hibernate-ogm-ehcache</include>
-                 <include>net.sf.ehcache:ehcache-core</include>
-              </includes>
+                 <include>org.hibernate.ogm:hibernate-ogm-orientdb</include>
+             </includes>
+       </dependencySet>
+        <!-- OrientDB -->
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>/com/orientechnologies/orientdb/${com.orientechnologies.module.slot}</outputDirectory>
+            <useTransitiveFiltering>false</useTransitiveFiltering>
+            <unpack>false</unpack>
+            <includes>
+                <include>com.orientechnologies:orientdb-core</include>
+                <include>com.orientechnologies:orientdb-client</include>
+                <include>org.codehaus.groovy:groovy-all</include>
+                <include>net.java.dev.jna:jna-platform</include>
+                <include>net.java.dev.jna:jna</include>
+                <include>com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru</include>
+                <include>com.googlecode.json-simple:json-simple</include>
+            </includes>
         </dependencySet>
-        <dependencySet>
-             <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/cassandra/${hibernate.ogm.cassandra.module.slot}</outputDirectory>
-             <useTransitiveFiltering>false</useTransitiveFiltering>
-             <unpack>false</unpack>
-             <includes>
-                 <include>org.hibernate.ogm:hibernate-ogm-cassandra</include>
-             </includes>
-       </dependencySet>
-       <dependencySet>
-             <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/cassandra/driver/${hibernate.ogm.cassandra.module.slot}</outputDirectory>
-             <useTransitiveFiltering>false</useTransitiveFiltering>
-             <unpack>false</unpack>
-             <includes>
-                 <include>com.datastax.cassandra:cassandra-driver-core</include>
-                 <include>io.dropwizard.metrics:metrics-core</include>
-                 <include>com.google.guava:guava</include>
-             </includes>
-       </dependencySet>
-       <dependencySet>
-             <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/redis/${hibernate.ogm.redis.module.slot}</outputDirectory>
-             <useTransitiveFiltering>false</useTransitiveFiltering>
-             <unpack>false</unpack>
-             <includes>
-                 <include>org.hibernate.ogm:hibernate-ogm-redis</include>
-             </includes>
-       </dependencySet>
-       <dependencySet>
-             <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/redis/driver/${hibernate.ogm.redis.module.slot}</outputDirectory>
-             <useTransitiveFiltering>false</useTransitiveFiltering>
-             <unpack>false</unpack>
-             <includes>
-                 <include>biz.paluch.redis:lettuce</include>
-                 <include>org.apache.commons:commons-pool2</include>
-                 <include>io.reactivex:rxjava</include>
-              </includes>
-       </dependencySet>
-       <dependencySet>
-             <useProjectArtifact>false</useProjectArtifact>
-             <outputDirectory>org/hibernate/ogm/couchdb/${hibernate.ogm.couchdb.module.slot}</outputDirectory>
-             <useTransitiveFiltering>false</useTransitiveFiltering>
-             <unpack>false</unpack>
-             <includes>
-                 <include>org.hibernate.ogm:hibernate-ogm-couchdb</include>
-             </includes>
-       </dependencySet>
     </dependencySets>
 </assembly>
