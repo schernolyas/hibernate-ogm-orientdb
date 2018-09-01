@@ -40,7 +40,7 @@ public class DatabaseHolder extends ThreadLocal<ODatabaseDocument> {
 	private final ODatabasePool orientDBPool;
 	private final OrientDB orientDBEnv;
 
-	public DatabaseHolder(String orientDbUrl, String user, String password, Integer poolSize) {
+	public DatabaseHolder(String orientDbUrl, String user, String password, Integer poolSize,String databaseName) {
 		super();
 		this.orientDbUrl = orientDbUrl;
 		this.user = user;
@@ -49,10 +49,10 @@ public class DatabaseHolder extends ThreadLocal<ODatabaseDocument> {
 				.addConfig( OGlobalConfiguration.DB_POOL_MAX, poolSize )
 				.build();
 		this.orientDBEnv = new OrientDB( "embedded:./databases/", orientDBConfig );
-		if ( !orientDBEnv.exists( "ogm_test_database"  ) ) {
-			orientDBEnv.create( "ogm_test_database" , ODatabaseType.MEMORY );
+		if ( !orientDBEnv.exists( databaseName ) ) {
+			orientDBEnv.create( databaseName , ODatabaseType.MEMORY );
 		}
-		this.orientDBPool = new ODatabasePool( orientDBEnv, "ogm_test_database", this.user, this.password );
+		this.orientDBPool = new ODatabasePool( orientDBEnv, databaseName, this.user, this.password );
 	}
 
 	@Override

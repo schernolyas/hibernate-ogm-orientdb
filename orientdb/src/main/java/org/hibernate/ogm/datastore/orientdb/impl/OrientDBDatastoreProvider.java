@@ -84,7 +84,9 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 				createDB( orientDBUrl, storageMode, databaseType, poolSize );
 			}
 
-			databaseHolder = new DatabaseHolder( orientDBUrl, user, password, poolSize );
+			String databaseName = PropertyReaderUtil.readDatabaseNameProperty( propertyReader );
+
+			databaseHolder = new DatabaseHolder( orientDBUrl, user, password, poolSize ,databaseName );
 
 			FormatterUtil.setDateFormatter( createFormatter( propertyReader, OrientDBProperties.DATE_FORMAT, OrientDBConstant.DEFAULT_DATE_FORMAT ) );
 			FormatterUtil.setDateTimeFormatter( createFormatter( propertyReader, OrientDBProperties.DATETIME_FORMAT, OrientDBConstant.DEFAULT_DATETIME_FORMAT ) );

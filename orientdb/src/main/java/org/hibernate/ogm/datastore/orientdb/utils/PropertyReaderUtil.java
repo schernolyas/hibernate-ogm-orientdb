@@ -72,6 +72,10 @@ public class PropertyReaderUtil {
 				.withDefault( Boolean.FALSE )
 				.getValue();
 	}
+	public static String readDatabaseNameProperty(ConfigurationPropertyReader propertyReader) {
+		return propertyReader.property( OgmProperties.DATABASE, String.class )
+				.getValue();
+	}
 
 	public static StorageModeEnum readStorateModeProperty(ConfigurationPropertyReader propertyReader, StorageModeEnum defaultStorage,
 			Set<StorageModeEnum> availableStorages) {
