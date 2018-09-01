@@ -59,7 +59,7 @@
         <asciidoctorj-pdf.version>1.5.0-alpha.11</asciidoctorj-pdf.version>
 
         <!-- OrientDB -->
-        <orientdbVersion>3.0.5</orientdbVersion>
+        <orientdbVersion>3.0.6</orientdbVersion>
         <groovyVersion>2.4.10</groovyVersion>
     </properties>
 
