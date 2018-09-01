@@ -25,10 +25,10 @@ import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
  * </p>
  *
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
- * @see <a href="http://orientdb.com/docs/2.2/Concurrency.html">Concurrency in OrientDB</a>
- * @see <a href="http://orientdb.com/docs/2.2/Transactions.html">Transactions in OrientDB</a>
- * @see <a href="http://orientdb.com/docs/2.2/Java-Multi-Threading.html">Multi-Threading in OrientDB</a>
- * @see <a href="http://orientdb.com/docs/docs_review_30/java/Document-API-Database.html">Database creation in OrientDB 3</a>
+ * @see <a href="https://orientdb.com/docs/3.0.x/general/Concurrency.html">Concurrency in OrientDB</a>
+ * @see <a href="https://orientdb.com/docs/3.0.x/internals/Transactions.html">Transactions in OrientDB</a>
+ * @see <a href="https://orientdb.com/docs/3.0.x/java/Java-Multi-Threading.html">Multi-Threading in OrientDB</a>
+ * @see <a href="https://orientdb.com/docs/3.0.x/java/Document-API-Database.html">Database creation in OrientDB 3</a>
  */
 public class DatabaseHolder extends ThreadLocal<ODatabaseDocument> {
 
