@@ -13,6 +13,7 @@ import com.orientechnologies.orient.core.db.OrientDB;
 import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 
+import org.hibernate.ogm.datastore.orientdb.OrientDBProperties;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
 
@@ -40,7 +41,8 @@ public class DatabaseHolder extends ThreadLocal<ODatabaseDocument> {
 	private final ODatabasePool orientDBPool;
 	private final OrientDB orientDBEnv;
 
-	public DatabaseHolder(String orientDbUrl, String user, String password, Integer poolSize,String databaseName) {
+	public DatabaseHolder(String orientDbUrl, String user, String password, Integer poolSize,String databaseName,
+			Boolean needCreateNewDatabase, OrientDBProperties.StorageModeEnum storageMode ) {
 		super();
 		this.orientDbUrl = orientDbUrl;
 		this.user = user;
@@ -48,10 +50,21 @@ public class DatabaseHolder extends ThreadLocal<ODatabaseDocument> {
 		this.orientDBConfig = OrientDBConfig.builder()
 				.addConfig( OGlobalConfiguration.DB_POOL_MAX, poolSize )
 				.build();
-		this.orientDBEnv = new OrientDB( "embedded:./databases/", orientDBConfig );
+
+		//this.orientDBEnv = new OrientDB( "embedded:./databases/", orientDBConfig );
+		this.orientDBEnv = new OrientDB( orientDbUrl,user,password, orientDBConfig );
 		if ( !orientDBEnv.exists( databaseName ) ) {
-			orientDBEnv.create( databaseName , ODatabaseType.MEMORY );
+			if ( needCreateNewDatabase ) {
+				switch ( storageMode ) {
+					case MEMORY:
+						orientDBEnv.create( databaseName, ODatabaseType.MEMORY );
+						break;
+					default:
+						orientDBEnv.create( databaseName, ODatabaseType.PLOCAL );
+				}
+			}
 		}
+		log.infof( "OrientDB url %s ; Database : %s", orientDbUrl, databaseName );
 		this.orientDBPool = new ODatabasePool( orientDBEnv, databaseName, this.user, this.password );
 	}
 

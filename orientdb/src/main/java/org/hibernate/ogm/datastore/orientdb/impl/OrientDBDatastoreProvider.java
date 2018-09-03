@@ -8,9 +8,7 @@ package org.hibernate.ogm.datastore.orientdb.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.EnumSet;
 import java.util.Map;
-import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.ogm.datastore.orientdb.OrientDBDialect;
@@ -36,8 +34,6 @@ import org.hibernate.service.spi.ServiceRegistryImplementor;
 import org.hibernate.service.spi.Startable;
 import org.hibernate.service.spi.Stoppable;
 
-import com.orientechnologies.orient.core.db.ODatabaseType;
-import com.orientechnologies.orient.core.db.OrientDBConfig;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
 
 /**
@@ -47,7 +43,6 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 
 	private static final long serialVersionUID = 1L;
 	private static Log log = LoggerFactory.getLogger();
-	private static final Set<StorageModeEnum> SUPPORTED_STORAGES = EnumSet.of( StorageModeEnum.MEMORY, StorageModeEnum.PLOCAL );
 	private DatabaseHolder databaseHolder;
 	private ConfigurationPropertyReader propertyReader;
 
@@ -60,7 +55,7 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 	public void start() {
 		log.debug( "---start---" );
 		try {
-			StorageModeEnum storageMode = PropertyReaderUtil.readStorateModeProperty( propertyReader, getDefaultStorage(), getSupportedStorages() );
+			StorageModeEnum storageMode = PropertyReaderUtil.readStorateModeProperty( propertyReader, getDefaultStorage() );
 			DatabaseTypeEnum databaseType = PropertyReaderUtil.readDatabaseTypeProperty( propertyReader );
 
 			if ( DatabaseTypeEnum.GRAPH.equals( databaseType ) ) {
@@ -78,15 +73,12 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 
 			Integer poolSize = PropertyReaderUtil.readPoolSizeProperty( propertyReader );
 			String orientDBUrl = prepareOrientDbUrl( storageMode );
-			log.debugf( "connect to URL %s", orientDBUrl );
 
-			if ( PropertyReaderUtil.readCreateDatabaseProperty( propertyReader ) ) {
-				createDB( orientDBUrl, storageMode, databaseType, poolSize );
-			}
+			Boolean needCreateNewDatabase = PropertyReaderUtil.readCreateDatabaseProperty( propertyReader );
 
 			String databaseName = PropertyReaderUtil.readDatabaseNameProperty( propertyReader );
 
-			databaseHolder = new DatabaseHolder( orientDBUrl, user, password, poolSize ,databaseName );
+			databaseHolder = new DatabaseHolder( orientDBUrl, user, password, poolSize ,databaseName,needCreateNewDatabase,storageMode );
 
 			FormatterUtil.setDateFormatter( createFormatter( propertyReader, OrientDBProperties.DATE_FORMAT, OrientDBConstant.DEFAULT_DATE_FORMAT ) );
 			FormatterUtil.setDateTimeFormatter( createFormatter( propertyReader, OrientDBProperties.DATETIME_FORMAT, OrientDBConstant.DEFAULT_DATETIME_FORMAT ) );
@@ -110,22 +102,18 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 	}
 
 	private String prepareOrientDbUrl(StorageModeEnum storage) {
-		String database = PropertyReaderUtil.readDatabaseProperty( propertyReader );
 		StringBuilder orientDbUrl = new StringBuilder( 100 );
-		orientDbUrl.append( storage.name().toLowerCase() );
-		orientDbUrl.append( ":" );
-
 		switch ( storage ) {
 			case MEMORY:
-				orientDbUrl.append( database );
+				orientDbUrl.append( "embedded:./databases/" );
 				break;
 			case PLOCAL:
-				String path = PropertyReaderUtil.readDatabasePathProperty( propertyReader );
-				orientDbUrl.append( path ).append( "/" ).append( database );
+				//@todo investigate question with plocal storage
+				orientDbUrl.append( "embedded:./databases/" );
 				break;
 			case REMOTE:
 				String host = PropertyReaderUtil.readHostProperty( propertyReader );
-				orientDbUrl.append( host ).append( "/" ).append( database );
+				orientDbUrl.append( "remote:" ).append( host ).append( "/" );
 				break;
 			default:
 				throw log.unsupportedStorage( storage );
@@ -133,33 +121,6 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 		return orientDbUrl.toString();
 	}
 
-	protected void createDB(String orientDbUrl, StorageModeEnum storage, DatabaseTypeEnum databaseType, Integer poolSize) {
-		log.debug( "---createDB---" );
-		String user = PropertyReaderUtil.readUserProperty( propertyReader );
-		String password = PropertyReaderUtil.readPasswordProperty( propertyReader );
-		log.debugf( "User: %s; Password: %s ", user, password );
-		if ( StorageModeEnum.MEMORY.equals( storage ) ||
-				StorageModeEnum.PLOCAL.equals( storage ) ) {
-			try {
-				try ( com.orientechnologies.orient.core.db.OrientDB orientDB = new com.orientechnologies.orient.core.db.OrientDB( "embedded:./databases/", OrientDBConfig.defaultConfig() ) ) {
-					String databaseName = PropertyReaderUtil.readDatabaseProperty( propertyReader );
-					if ( StorageModeEnum.MEMORY.equals( storage ) ) {
-						orientDB.createIfNotExists( databaseName, ODatabaseType.MEMORY );
-					}
-					else if ( StorageModeEnum.PLOCAL.equals( storage ) ) {
-						orientDB.createIfNotExists( databaseName, ODatabaseType.PLOCAL );
-					}
-					log.debugf( "database %s created?  %b", databaseName, orientDB.exists( databaseName  ) );
-				}
-			}
-			catch (Exception e) {
-				throw log.cannotCreateDatabase( String.format( "Can not create OrientDB URL %s", orientDbUrl ), e );
-			}
-		}
-		else {
-			throw log.unsupportedStorage( storage );
-		}
-	}
 
 	public ODatabaseDocument getCurrentDatabase() {
 		return databaseHolder.get();
@@ -167,10 +128,6 @@ public class OrientDBDatastoreProvider extends BaseDatastoreProvider implements 
 
 	protected StorageModeEnum getDefaultStorage() {
 		return StorageModeEnum.MEMORY;
-	}
-
-	protected Set<StorageModeEnum> getSupportedStorages() {
-		return SUPPORTED_STORAGES;
 	}
 
 	public void closeCurrentDatabase() {

@@ -6,3 +6,5 @@
 #maven
 **/target/**
 /.project
+/.idea
+

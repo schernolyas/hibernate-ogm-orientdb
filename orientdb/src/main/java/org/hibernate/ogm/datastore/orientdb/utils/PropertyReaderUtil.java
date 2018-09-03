@@ -77,15 +77,10 @@ public class PropertyReaderUtil {
 				.getValue();
 	}
 
-	public static StorageModeEnum readStorateModeProperty(ConfigurationPropertyReader propertyReader, StorageModeEnum defaultStorage,
-			Set<StorageModeEnum> availableStorages) {
+	public static StorageModeEnum readStorateModeProperty(ConfigurationPropertyReader propertyReader, StorageModeEnum defaultStorage) {
 		StorageModeEnum storage = propertyReader.property( OrientDBProperties.STORAGE_MODE_TYPE, OrientDBProperties.StorageModeEnum.class )
 				.withDefault( defaultStorage )
 				.getValue();
-		if ( !availableStorages.contains( storage ) ) {
-			// user set unsupportable storage
-			throw log.unsupportedStorage( storage );
-		}
 		return storage;
 	}
 
