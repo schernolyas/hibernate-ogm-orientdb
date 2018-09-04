@@ -40,6 +40,8 @@ import org.hibernate.type.UUIDBinaryType;
 import org.hibernate.type.UrlType;
 import org.hibernate.type.YesNoType;
 
+import com.orientechnologies.orient.core.metadata.schema.OType;
+
 /**
  * Collection of mappings
  *
@@ -51,7 +53,7 @@ public class OrientDBMapping {
 	 * Mapping from Hibernate data type to OrientDB data type
 	 */
 	@SuppressWarnings("rawtypes")
-	public static final Map<Class, String> TYPE_MAPPING = getTypeMapping();
+	public static final Map<Class, OType> TYPE_MAPPING = getTypeMapping();
 	/**
 	 * Mapping from SQL data type to OrientDB data type
 	 */
@@ -95,40 +97,41 @@ public class OrientDBMapping {
 	}
 
 	@SuppressWarnings("rawtypes")
-	private static Map<Class, String> getTypeMapping() {
-		Map<Class, String> map = new HashMap<>();
+	private static Map<Class, OType> getTypeMapping() {
+		Map<Class, OType> map = new HashMap<>();
 
-		map.put( ByteType.class, "byte" );
-		map.put( IntegerType.class, "integer" );
-		map.put( NumericBooleanType.class, "short" );
-		map.put( ShortType.class, "short" );
-		map.put( LongType.class, "long" );
-		map.put( FloatType.class, "float" );
-		map.put( DoubleType.class, "double" );
-		map.put( DateType.class, "date" );
-		map.put( CalendarDateType.class, "date" );
-		map.put( TimestampType.class, "datetime" );
-		map.put( CalendarType.class, "datetime" );
-		map.put( TimeType.class, "datetime" );
+		map.put( ByteType.class,  OType.BYTE );
+		map.put( IntegerType.class, OType.INTEGER );
+		map.put( NumericBooleanType.class, OType.BYTE );
+		map.put( ShortType.class, OType.SHORT );
+		map.put( LongType.class, OType.LONG );
+		map.put( FloatType.class, OType.FLOAT );
+		map.put( DoubleType.class, OType.DOUBLE );
+		map.put( DateType.class, OType.DATE );
+		map.put( CalendarDateType.class, OType.DATE );
+		//@todo may be long?
+		map.put( TimestampType.class, OType.DATETIME );
+		map.put( CalendarType.class, OType.DATETIME );
+		map.put( TimeType.class, OType.DATETIME );
 
-		map.put( BooleanType.class, "boolean" );
+		map.put( BooleanType.class, OType.BOOLEAN );
 
-		map.put( TrueFalseType.class, "string" );
-		map.put( YesNoType.class, "string" );
-		map.put( StringType.class, "string" );
-		map.put( UrlType.class, "string" );
+		map.put( TrueFalseType.class, OType.STRING );
+		map.put( YesNoType.class, OType.STRING );
+		map.put( StringType.class, OType.STRING );
+		map.put( UrlType.class, OType.STRING );
 
-		map.put( CharacterType.class, "string" );
-		map.put( UUIDBinaryType.class, "string" );
+		map.put( CharacterType.class, OType.STRING );
+		map.put( UUIDBinaryType.class, OType.STRING );
 
-		map.put( BigIntegerType.class, "string" );
+		map.put( BigIntegerType.class,  OType.STRING );
 
-		map.put( BinaryType.class, "binary" ); // byte[]
-		map.put( MaterializedBlobType.class, "binary" ); // byte[]
-		map.put( SerializableToBlobType.class, "binary" ); // byte[]
-		map.put( MaterializedClobType.class, "binary" );
+		map.put( BinaryType.class, OType.BINARY ); // byte[]
+		map.put( MaterializedBlobType.class, OType.BINARY ); // byte[]
+		map.put( SerializableToBlobType.class, OType.BINARY ); // byte[]
+		map.put( MaterializedClobType.class, OType.BINARY );
 
-		map.put( BigDecimalType.class, "decimal" );
+		map.put( BigDecimalType.class, OType.DECIMAL );
 		return Collections.unmodifiableMap( map );
 
 	}

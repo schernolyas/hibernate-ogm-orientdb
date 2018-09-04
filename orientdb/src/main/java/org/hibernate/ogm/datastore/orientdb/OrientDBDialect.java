@@ -27,7 +27,7 @@ import org.hibernate.ogm.datastore.orientdb.dialect.impl.OrientDBTupleSnapshot;
 import org.hibernate.ogm.datastore.orientdb.dialect.impl.ODocumentListTupleIterator;
 import org.hibernate.ogm.datastore.orientdb.dto.GenerationResult;
 import org.hibernate.ogm.datastore.orientdb.impl.OrientDBDatastoreProvider;
-import org.hibernate.ogm.datastore.orientdb.schema.OrientDBDocumentSchemaDefiner;
+import org.hibernate.ogm.datastore.orientdb.schema.OldOrientDBDocumentSchemaDefiner;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
 import org.hibernate.ogm.datastore.orientdb.query.impl.OrientDBParameterMetadataBuilder;
@@ -206,7 +206,7 @@ public class OrientDBDialect extends BaseGridDialect
 		}
 		else {
 			// use business key. get new id from sequence
-			String seqName = OrientDBDocumentSchemaDefiner.generateSeqName( entityKeyMetadata.getTable(), dbKeyName );
+			String seqName = OldOrientDBDocumentSchemaDefiner.generateSeqName( entityKeyMetadata.getTable(), dbKeyName );
 			dbKeyValue = SequenceUtil.getNextSequenceValue( provider.getCurrentDatabase(), seqName );
 			tuple.put( dbKeyName, dbKeyValue );
 		}

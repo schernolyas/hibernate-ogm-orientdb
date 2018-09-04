@@ -19,6 +19,7 @@ import org.hibernate.ogm.datastore.orientdb.connection.DatabaseHolder;
 import org.hibernate.ogm.datastore.orientdb.constant.OrientDBConstant;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
+import org.hibernate.ogm.datastore.orientdb.schema.OldOrientDBDocumentSchemaDefiner;
 import org.hibernate.ogm.datastore.orientdb.schema.OrientDBDocumentSchemaDefiner;
 import org.hibernate.ogm.datastore.orientdb.transaction.impl.OrientDbTransactionCoordinatorBuilder;
 import org.hibernate.ogm.datastore.orientdb.utils.FormatterUtil;

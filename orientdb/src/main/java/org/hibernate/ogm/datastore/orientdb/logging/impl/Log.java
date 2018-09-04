@@ -58,6 +58,9 @@ public interface Log extends org.hibernate.ogm.util.impl.Log {
 	@Message(id = 1710, value = "Unable to rollback transaction")
 	void unableToRollbackTransaction(@Cause Exception re);
 
-	@Message(id = 1410, value = "Error performing isolated work")
+	@Message(id = 1711, value = "Error performing isolated work")
 	HibernateException unableToPerformIsolatedWork(@Cause Exception e);
+
+	@Message(id = 1712, value = "Cannot create property %s!")
+	HibernateException cannotCreateProperty(String propertyName, @Cause Exception cause);
 }
