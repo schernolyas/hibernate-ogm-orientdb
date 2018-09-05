@@ -72,6 +72,10 @@ public class OrientDBTupleSnapshot implements TupleSnapshot {
 		return new LinkedHashSet<>( Arrays.asList( document.fieldNames() ) );
 	}
 
+	public ODocument getDocument() {
+		return document;
+	}
+
 	/**
 	 * Whether this snapshot has been newly created (meaning it doesn't have an actual {@link ODocument} yet) or not. A
 	 * node will be in the "new" state between the {@code createTuple()} call and the next {@code insertOrUpdateTuple()}

@@ -35,9 +35,8 @@ import org.hibernate.ogm.datastore.orientdb.type.spi.ORecordIdGridType;
 import org.hibernate.ogm.datastore.orientdb.type.spi.ORidBagGridType;
 import org.hibernate.ogm.datastore.orientdb.utils.EntityKeyUtil;
 import org.hibernate.ogm.datastore.orientdb.utils.InsertQueryGenerator;
-import org.hibernate.ogm.datastore.orientdb.utils.QueryTypeDefiner;
-import org.hibernate.ogm.datastore.orientdb.utils.QueryTypeDefiner.QueryType;
 import org.hibernate.ogm.datastore.orientdb.utils.SequenceUtil;
+import org.hibernate.ogm.datastore.orientdb.utils.TupleUtil;
 import org.hibernate.ogm.datastore.orientdb.utils.UpdateQueryGenerator;
 import org.hibernate.ogm.dialect.identity.spi.IdentityColumnAwareGridDialect;
 import org.hibernate.ogm.dialect.query.spi.BackendQuery;
@@ -160,34 +159,24 @@ public class OrientDBDialect extends BaseGridDialect
 		log.debugf( "insertOrUpdateTuple:EntityKey: %s ; tupleContext: %s ; tuple: %s ; SnapshotType: %s",
 				key, tupleContext, tuple, tuple.getSnapshotType() );
 		ODatabaseDocument db = provider.getCurrentDatabase();
-
 		OrientDBTupleSnapshot snapshot = (OrientDBTupleSnapshot) tuple.getSnapshot();
-		boolean existsInDbOrCache = EntityKeyUtil.existsPrimaryKeyInDbOrCache( db, key );
-		QueryType queryType = QueryTypeDefiner.define( existsInDbOrCache, snapshot.isNew() );
-		log.debugf( "insertOrUpdateTuple: snapshot.isNew(): %b ,snapshot.isEmpty(): %b; exists in Db or Cache: %b; query type: %s ",
-				snapshot.isNew(), snapshot.isEmpty(), existsInDbOrCache, queryType );
-		log.debugf( "insertOrUpdateTuple: count: %b;", EntityKeyUtil.existsPrimaryKeyInDB( db, key ) );
-
-
 		StringBuilder queryBuffer = new StringBuilder( 100 );
-		switch ( queryType ) {
+		switch ( tuple.getSnapshotType() ) {
 			case INSERT:
 				log.debugf( "insertOrUpdateTuple:Key: %s is new! Insert new record!", key );
-				GenerationResult insertResult = INSERT_QUERY_GENERATOR.generate( key.getTable(), tuple, true,
-						new HashSet<>( Arrays.asList( key.getColumnNames() ) ) );
-				queryBuffer.append( insertResult.getExecutionQuery() );
+				ODocument insertDocument = TupleUtil.toDocument( db,key,tuple );
+				ODocument result1 = insertDocument.save();
+				log.debugf( "insertOrUpdateTuple:Key: %s; Affected rows: %s ", key,  result1.toJSON() );
 				break;
 			case UPDATE:
-				GenerationResult updateResult = UPDATE_QUERY_GENERATOR.generate( key.getTable(), tuple, key );
-				queryBuffer.append( updateResult.getExecutionQuery() );
+				ODocument updateDocument = snapshot.getDocument();
+				TupleUtil.merge( updateDocument, tuple );
+				ODocument result2 = updateDocument.save();
+				log.debugf( "insertOrUpdateTuple:Key: %s; Affected rows: %s ", key,  result2.toJSON() );
 				break;
-			case ERROR:
+			case UNKNOWN:
 				throw new StaleObjectStateException( key.getTable(), (Serializable) EntityKeyUtil.generatePrimaryKeyPredicate( key ) );
 		}
-
-		ODocument result = NativeQueryUtil.executeNonIdempotentQuery( db, queryBuffer );
-		log.debugf( "insertOrUpdateTuple:Key: %s; Query: %s; Affected rows: %s ", key, queryBuffer, result.toJSON() );
-
 	}
 
 	@Override

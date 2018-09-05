@@ -7,11 +7,14 @@
 package org.hibernate.ogm.datastore.orientdb.schema;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.boot.model.relational.Namespace;
 import org.hibernate.boot.model.relational.Sequence;
 import org.hibernate.engine.spi.SessionFactoryImplementor;
 import org.hibernate.mapping.Column;
+import org.hibernate.mapping.PrimaryKey;
 import org.hibernate.mapping.SimpleValue;
 import org.hibernate.mapping.Table;
 import org.hibernate.mapping.Value;
@@ -26,6 +29,7 @@ import org.hibernate.type.CustomType;
 import org.hibernate.type.EnumType;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
+import org.hibernate.type.Type;
 import org.hibernate.type.descriptor.converter.AttributeConverterTypeAdapter;
 import org.hibernate.usertype.UserType;
 
@@ -96,14 +100,19 @@ public class OrientDBDocumentSchemaDefiner extends BaseSchemaDefiner {
 						createClassProperty( tableClass, column );
 					}
 				}
+				if ( table.hasPrimaryKey() ) {
+					PrimaryKey primaryKey = table.getPrimaryKey();
+					createPrimaryKey( schema, primaryKey );
+				}
 			}
 		}
 	}
 
 	private void createClassProperty(OClass tableClass, Column column) {
 		SimpleValue columnValue = (SimpleValue) column.getValue();
+		Type valueType = columnValue.getType();
 		Class<?> targetTypeClass = columnValue.getType().getReturnedClass();
-		if ( targetTypeClass.equals( CustomType.class ) ) {
+		if ( valueType instanceof CustomType ) {
 			CustomType type = (CustomType) columnValue.getType();
 			log.debug( "2.Column " + column.getName() + " :" + type.getUserType() );
 			UserType userType = type.getUserType();
@@ -117,24 +126,21 @@ public class OrientDBDocumentSchemaDefiner extends BaseSchemaDefiner {
 				throw new UnsupportedOperationException( "Unsupported user type: " + userType.getClass() );
 			}
 		}
-		else if ( targetTypeClass.equals( AttributeConverterTypeAdapter.class ) ) {
-			throw new UnsupportedOperationException( "AttributeConverterTypeAdapter!" );
-//			log.debug(
-//					"3.Column  name: " + column.getName() + " ; className: " + column.getValue().getType().getClass() );
-//			AttributeConverterTypeAdapter<?> type = (AttributeConverterTypeAdapter<?>) column.getValue().getType();
-//			int sqlType = type.getSqlTypeDescriptor().getSqlType();
-//			log.debugf( "3.sql type: %d", sqlType );
-//			if ( !OrientDBMapping.SQL_TYPE_MAPPING.containsKey( sqlType ) ) {
-//				throw new UnsupportedOperationException( "Unsupported SQL type: " + sqlType );
-//			}
-
-//			query = MessageFormat.format( CREATE_PROPERTY_TEMPLATE,
-//					className, propertyName, OrientDBMapping.SQL_TYPE_MAPPING.get( sqlType ) );
+		else if ( valueType instanceof AttributeConverterTypeAdapter ) {
+			AttributeConverterTypeAdapter<?> adapterType = (AttributeConverterTypeAdapter<?>) valueType;
+			int sqlType = adapterType.getSqlTypeDescriptor().getSqlType();
+			OType orientDbType = OrientDBMapping.SQL_TYPE_MAPPING.get( sqlType );
+			if ( orientDbType == null ) {
+				throw new UnsupportedOperationException( "Unsupported type: " + valueType.getClass() );
+			}
+			else {
+				tableClass.createProperty( column.getName(), orientDbType );
+			}
 		}
 		else {
-			OType orientDbType = OrientDBMapping.TYPE_MAPPING.get( targetTypeClass );
+			OType orientDbType = OrientDBMapping.TYPE_MAPPING.get( valueType.getClass() );
 			if ( orientDbType == null ) {
-				throw new UnsupportedOperationException( "Unsupported type: " + targetTypeClass );
+				throw new UnsupportedOperationException( "Unsupported type: " + valueType.getClass() );
 			}
 			else {
 				tableClass.createProperty( column.getName(), orientDbType );
@@ -152,5 +158,15 @@ public class OrientDBDocumentSchemaDefiner extends BaseSchemaDefiner {
 				throw log.cannotCreateProperty( column.getName(), oe );
 
 		}
+	}
+
+	private void createPrimaryKey(OSchema schema, PrimaryKey primaryKey) {
+		String indexName = primaryKey.getName();
+		Table table = primaryKey.getTable();
+		List<String> columnNames = primaryKey.getColumns().stream().map( Column::getName ).collect(
+				Collectors.toList() );
+		OClass typeClass = schema.getClass( table.getName() );
+		typeClass.createIndex(
+				indexName, OClass.INDEX_TYPE.UNIQUE, columnNames.toArray( new String[columnNames.size()] ) );
 	}
 }

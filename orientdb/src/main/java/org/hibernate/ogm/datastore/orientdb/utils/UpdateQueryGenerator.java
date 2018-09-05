@@ -35,7 +35,7 @@ import org.hibernate.ogm.model.key.spi.AssociationKey;
  * @author Sergey Chernolyas &lt;sergey.chernolyas@gmail.com&gt;
  * @see <a href="http://orientdb.com/docs/2.2/SQL-Update.html">Update query in OrientDB</a>
  */
-
+@Deprecated
 public class UpdateQueryGenerator {
 
 	private static final Log log = LoggerFactory.getLogger();

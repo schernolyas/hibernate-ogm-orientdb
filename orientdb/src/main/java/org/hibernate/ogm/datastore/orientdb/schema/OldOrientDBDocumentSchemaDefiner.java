@@ -552,7 +552,7 @@ public class OldOrientDBDocumentSchemaDefiner extends BaseSchemaDefiner {
 					className, propertyName, OrientDBMapping.SQL_TYPE_MAPPING.get( sqlType ) );
 		}
 		else {
-			String orientDbTypeName = OrientDBMapping.TYPE_MAPPING.get( targetTypeClass );
+			String orientDbTypeName = null ;// OrientDBMapping.TYPE_MAPPING.get( targetTypeClass );
 			if ( orientDbTypeName == null ) {
 				throw new UnsupportedOperationException( "Unsupported type: " + targetTypeClass );
 			}

@@ -57,7 +57,7 @@ public class OrientDBMapping {
 	/**
 	 * Mapping from SQL data type to OrientDB data type
 	 */
-	public static final Map<Integer, String> SQL_TYPE_MAPPING = getSqlTypeMapping();
+	public static final Map<Integer, OType> SQL_TYPE_MAPPING = getSqlTypeMapping();
 
 	/**
 	 * Mapping of types for generate sequence
@@ -76,22 +76,22 @@ public class OrientDBMapping {
 	@SuppressWarnings("rawtypes")
 	public static final Map<Class, Class> FOREIGN_KEY_TYPE_MAPPING = getForeignKeyTypeMapping();
 
-	private static Map<Integer, String> getSqlTypeMapping() {
-		Map<Integer, String> map = new HashMap<>();
-		map.put( Types.VARCHAR, "string" );
-		map.put( Types.CHAR, "string" );
+	private static Map<Integer, OType> getSqlTypeMapping() {
+		Map<Integer, OType> map = new HashMap<>();
+		map.put( Types.VARCHAR, OType.STRING );
+		map.put( Types.CHAR, OType.STRING );
 
-		map.put( Types.FLOAT, "float" );
-		map.put( Types.DOUBLE, "double" );
-		map.put( Types.INTEGER, "integer" );
-		map.put( Types.SMALLINT, "short" );
-		map.put( Types.DECIMAL, "decimal" );
+		map.put( Types.FLOAT, OType.FLOAT );
+		map.put( Types.DOUBLE, OType.DOUBLE );
+		map.put( Types.INTEGER, OType.INTEGER );
+		map.put( Types.SMALLINT, OType.SHORT );
+		map.put( Types.DECIMAL, OType.DECIMAL );
 
-		map.put( Types.BINARY, "binary" );
-		map.put( Types.LONGVARBINARY, "binary" );
+		map.put( Types.BINARY, OType.BINARY );
+		map.put( Types.LONGVARBINARY, OType.BINARY );
 
-		map.put( Types.BOOLEAN, "boolean" );
-		map.put( Types.DATE, "date" );
+		map.put( Types.BOOLEAN, OType.BOOLEAN );
+		map.put( Types.DATE, OType.DATE );
 
 		return Collections.unmodifiableMap( map );
 	}

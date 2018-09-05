@@ -11,7 +11,12 @@ import org.hibernate.ogm.datastore.orientdb.logging.impl.Log;
 import org.hibernate.ogm.datastore.orientdb.logging.impl.LoggerFactory;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import org.hibernate.ogm.model.key.spi.EntityKey;
 import org.hibernate.ogm.model.spi.Tuple;
+
+import com.orientechnologies.orient.core.db.document.ODatabaseDocument;
+import com.orientechnologies.orient.core.record.impl.ODocument;
 
 /**
  * Utility class for working with {@link Tuple}
@@ -36,4 +41,17 @@ public class TupleUtil {
 		return map;
 	}
 
+	public static ODocument toDocument(ODatabaseDocument db , EntityKey key, Tuple tuple) {
+		ODocument document = db.newInstance( key.getTable() );
+		for ( String columnName : tuple.getColumnNames() ) {
+			document.field( columnName,tuple.get( columnName )  );
+		}
+		return document;
+	}
+
+	public static void merge(ODocument sourceDocument, Tuple tuple) {
+		for ( String columnName : tuple.getColumnNames() ) {
+			sourceDocument.field( columnName,tuple.get( columnName )  );
+		}
+	}
 }

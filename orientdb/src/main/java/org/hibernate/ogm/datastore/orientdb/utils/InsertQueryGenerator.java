@@ -34,6 +34,7 @@ import org.hibernate.ogm.model.spi.Association;
  * @see <a href="http://orientdb.com/docs/2.2/SQL-Insert.html">Insert query in OrientDB</a>
  */
 @SuppressWarnings("unchecked")
+@Deprecated
 public class InsertQueryGenerator {
 
 	private static final Log log = LoggerFactory.getLogger();

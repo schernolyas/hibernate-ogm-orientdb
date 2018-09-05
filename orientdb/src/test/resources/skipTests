@@ -8,7 +8,8 @@ org.hibernate.ogm.backendtck.associations.storageconfiguration.AssociationStorag
 
 
 #tests for investigation
-org.hibernate.ogm.backendtck.type.BuiltInTypeTest
+#org.hibernate.ogm.backendtck.type.BuiltInTypeTest
+
 org.hibernate.ogm.backendtck.queries.QueriesWithAssociationsTest
 org.hibernate.ogm.backendtck.associations.collection.unidirectional.CollectionUnidirectionalTest
 org.hibernate.ogm.backendtck.optimisticlocking.OptimisticLockingTest
